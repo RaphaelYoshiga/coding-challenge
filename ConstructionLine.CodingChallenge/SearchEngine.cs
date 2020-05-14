@@ -4,24 +4,26 @@ namespace ConstructionLine.CodingChallenge
 {
     public class SearchEngine
     {
-        private readonly List<Shirt> _shirts;
+        private readonly IShirtsIndexer _shirtsIndexer;
+        private readonly ISearchSummarizer _searchSummarizer;
 
-        public SearchEngine(List<Shirt> shirts)
+        public SearchEngine(List<Shirt> shirts) : this(shirts, new SearchIndexerFactory(), new SearchSummarizer())
         {
-            _shirts = shirts;
-
-            // TODO: data preparation and initialisation of additional data structures to improve performance goes here.
-
+            // Kept for backwards compatibility
         }
 
+        public SearchEngine(List<Shirt> shirts, ISearchIndexerFactory searchIndexerFactory, ISearchSummarizer searchSummarizer)
+        {
+            _searchSummarizer = searchSummarizer;
+            _shirtsIndexer = searchIndexerFactory.Instantiate(shirts);
+        }
 
         public SearchResults Search(SearchOptions options)
         {
-            // TODO: search logic goes here.
-
-            return new SearchResults
-            {
-            };
+            var shirts = _shirtsIndexer.FilterBy(options);
+            return _searchSummarizer.Summarize(shirts);
         }
     }
+
+
 }

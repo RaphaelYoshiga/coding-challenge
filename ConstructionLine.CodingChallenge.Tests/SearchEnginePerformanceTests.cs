@@ -15,14 +15,12 @@ namespace ConstructionLine.CodingChallenge.Tests
         [SetUp]
         public void Setup()
         {
-            
             var dataBuilder = new SampleDataBuilder(50000);
 
             _shirts = dataBuilder.CreateShirts();
 
             _searchEngine = new SearchEngine(_shirts);
         }
-
 
         [Test]
         public void PerformanceTest()

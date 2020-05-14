@@ -9,7 +9,7 @@ namespace ConstructionLine.CodingChallenge
 
         public string Name { get; }
 
-        private Size(Guid id, string name)
+        public Size(Guid id, string name)
         {
             Id = id;
             Name = name;
@@ -28,5 +28,23 @@ namespace ConstructionLine.CodingChallenge
                 Medium,
                 Large
             };
+
+        protected bool Equals(Size other)
+        {
+            return Id.Equals(other.Id);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Size) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
     }
 }
